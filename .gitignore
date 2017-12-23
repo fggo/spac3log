@@ -1,0 +1,3 @@
+spac3log/settings_secret.py
+__pycache__/
+*.sqlite3
