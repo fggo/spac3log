@@ -19,5 +19,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^users/', include('users.urls')),
     url(r'', include('spac3logs.urls')),
 ]

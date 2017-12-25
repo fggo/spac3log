@@ -1,0 +1,19 @@
+{% extends 'spac3logs/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block header %}
+  <h2>Register an account:</h2>
+{% endblock header %}
+
+{% block content %}
+  <form class="form" action="{% url 'users:register' %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    {% buttons %}
+      <button class="btn btn-primary" name="submit">register</button>
+    {% endbuttons %}
+    <input type="hidden" name="next" value="{% url 'spac3logs:index' %}" />
+  </form>
+{% endblock content %}

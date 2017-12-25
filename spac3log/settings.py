@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'bootstrap3',
     # my apps
     'spac3logs',
+    'users',
 ]
+
 
 # django-bootstrap3 setting
 BOOTSTRAP3 = {
