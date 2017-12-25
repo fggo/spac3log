@@ -1,0 +1,21 @@
+{% extends 'spac3logs/base.html' %}
+
+{% load bootstrap3 %}
+
+{% block header %}
+  <h2>
+    <a href="{% url 'spac3logs:topic' topic.id %}">{{ topic }}</a>
+  </h2>
+{% endblock header %}
+
+{% block content %}
+  <form class="form" action="{% url 'spac3logs:new_entry' topic.id %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    {% buttons %}
+      <button class="btn btn-primary" name="submit">add entry</button>
+    {% endbuttons %}
+
+  </form>
+{% endblock content %}
