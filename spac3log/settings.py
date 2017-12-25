@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+LOGIN_URL = '/users/login/'
+
 
 # django-bootstrap3 setting
 BOOTSTRAP3 = {
