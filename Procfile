@@ -1,0 +1,1 @@
+web: gunicorn spac3log.wsgi --log-file -
