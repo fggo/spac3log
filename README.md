@@ -1,32 +1,34 @@
 # spac3log
 text based log app
 
-# development environment setup
+# Development environment setup
+
+## Use pipenv
+use pipenv for virtual environment and package management
 ```commandline
 pipenv install
-    Installing dependencies in
-    ~/.local/share/virtualenvs/project_name-hash/bin/
+    # Installing dependencies in
+    # ~/.local/share/virtualenvs/project_name-hash/bin/
     
 pipenv install django
-pipenv install psycopg2
 pipenv install django-bootstrap3
 pipenv install dj-database-url
 pipenv install whitenoise
 pipenv install gunicorn
+pipenv install psycopg2
 
 pipenv shell
-    (activate this project's virtualenv)
+    # activate this project's virtualenv
 ```
 
-Pipfile
+## Specify python version in Pipfile
 ```
 # -- snip --
-
 [requires]
 python_version = "3.6"
 ```
 
-# setup postgresql in local
+## Setup PostgreSQL in local
 ```commandline
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
@@ -56,3 +58,23 @@ DATABASES = {
     }
 }
 ```
+
+## secret key
+on local
+```python
+# settings.py
+SECRET_KEY = os.getenv('SECRET_KEY', default=None)
+```
+
+```
+# $VIRTUAL_ENV/bin/activate
+# -- snip --
+SECRET_KEY='YOUR_SECRET_KEY_VALUE'
+export SECRET_KEY
+```
+
+on heroku
+```commandline
+heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
+```
+
