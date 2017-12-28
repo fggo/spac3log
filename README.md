@@ -78,3 +78,17 @@ on heroku
 heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
 ```
 
+# set environment variables
+```commandline
+gedit $VIRTUAL_ENV/bin/activate
+
+    SECRET_KEY='YOUR_KEY'
+    export SECRET_KEY
+    
+    DATABASE_NAME='YOUR_DATABASE'
+    DATABASE_USER='YOUR_USER'
+    DATABASE_PASSWORD='YOUR_PASSWORD'
+    export DATABASE_NAME
+    export DATABASE_USER
+    export DATABASE_PASSWORD
+```
