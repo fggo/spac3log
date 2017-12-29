@@ -92,3 +92,10 @@ gedit $VIRTUAL_ENV/bin/activate
     export DATABASE_USER
     export DATABASE_PASSWORD
 ```
+
+# python-decouple
+separate coding from settings
+```commandline
+pipenv install python-decouple
+```
+
