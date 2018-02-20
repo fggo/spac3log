@@ -1,34 +1,36 @@
 # spac3log
 text based log app
 
-# Development environment setup
-
-## Use pipenv
-use pipenv for virtual environment and package management
+# pipenv
+for virtual environment and package management
 ```commandline
-pipenv install
-    # Installing dependencies in
+ls
+    .env    requirements.txt
+cat requirements.txt
+    dj-database-url==0.4.2
+    Django==2.0
+    django-bootstrap3==9.1.0
+    gunicorn==19.7.1
+    psycopg2==2.7.3.2
+    python-decouple==3.1
+    pytz==2017.3
+    whitenoise==3.3.1 
+pipenv install -r requirements.txt
     # ~/.local/share/virtualenvs/project_name-hash/bin/
     
-pipenv install django
-pipenv install django-bootstrap3
-pipenv install dj-database-url
-pipenv install whitenoise
-pipenv install gunicorn
-pipenv install psycopg2
-
+# activate this project's virtualenv
 pipenv shell
-    # activate this project's virtualenv
 ```
 
-## Specify python version in Pipfile
+# Pipfile
 ```
 # -- snip --
 [requires]
+
 python_version = "3.6"
 ```
 
-## Setup PostgreSQL in local
+# PostgreSQL local setup
 ```commandline
 sudo apt update
 sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
@@ -45,40 +47,63 @@ user=# GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 user=# \q
 ```
 
-```python
-# settings.py
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-```
-
-## secret key
-on local
-```python
-# settings.py
-SECRET_KEY = os.getenv('SECRET_KEY', default=None)
-```
-
-```
-# $VIRTUAL_ENV/bin/activate
-# -- snip --
-SECRET_KEY='YOUR_SECRET_KEY_VALUE'
-export SECRET_KEY
-```
-
-on heroku
+# Start django project
 ```commandline
-heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
+django-admin.py startproject project_name .
 ```
 
-# set environment variables
+# python-decouple
+separate code from settings
+```commandline
+pipenv install python-decouple
+```
+
+```text
+# .env
+SECRET_KEY='your_secret_key'
+
+DEBUG='boolean_value'
+
+ALLOWED_HOSTS=*
+
+DATABASE_NAME='db_name'
+DATABASE_USER='db_user'
+DATABASE_PASSWORD='db_password'
+```
+
+```python
+# settings.py
+from decouple import Csv, config
+
+SECRET_KEY = config('SECRET_KEY')
+
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+# --snip--
+else:
+    # Database
+    # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DATABASE_NAME'),
+            'USER': config('DATABASE_USER'),
+            'PASSWORD': config('DATABASE_PASSWORD'),
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+```
+
+
+# Create the database
+```commandline
+python manage.py migrate
+```
+
+# before using python-decouple
 ```commandline
 gedit $VIRTUAL_ENV/bin/activate
 
@@ -92,10 +117,13 @@ gedit $VIRTUAL_ENV/bin/activate
     export DATABASE_USER
     export DATABASE_PASSWORD
 ```
+```python
+# settings.py
+SECRET_KEY = os.getenv('SECRET_KEY', default=None)
+```
 
-# python-decouple
-separate coding from settings
+## secret key on heroku
 ```commandline
-pipenv install python-decouple
+heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
 ```
 
