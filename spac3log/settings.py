@@ -12,6 +12,42 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
+# Database
+cwd = os.getcwd()
+print("--- CWD ---\n", cwd, "\n---\n")
+
+if cwd == '/app' or cwd[:4] == '/tmp':
+    # heroku
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
+    }
+    # honor the 'X-Forwarded-Proto' header for request.is_secure()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    # static asset configuration
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+else:
+    # local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DATABASE_NAME'),
+            'USER': config('DATABASE_USER'),
+            'PASSWORD': config('DATABASE_PASSWORD'),
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -100,45 +136,4 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-cwd = os.getcwd()
-print("--- CWD ---\n", cwd, "\n---\n")
-
-if cwd == '/app' or cwd[:4] == '/tmp':
-    # heroku
-    import dj_database_url
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL')
-        )
-    }
-    # honor the 'X-Forwarded-Proto' header for request.is_secure()
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-    # only allow heroku to host the project
-    ALLOWED_HOSTS = ['*']
-    DEBUG = True
-
-    # static asset configuration
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = 'staticfiles'
-    STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-    )
-    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-else:
-    # local
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': config('DATABASE_NAME'),
-            'USER': config('DATABASE_USER'),
-            'PASSWORD': config('DATABASE_PASSWORD'),
-            'HOST': 'localhost',
-            'PORT': '',
-        }
-    }
 
