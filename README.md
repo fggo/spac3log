@@ -37,6 +37,8 @@ sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
 sudo -u postgres psql
 psql
 
+user=# CREATE DATABASE myproject; 
+
 user=# CREATE USER myprojectuser WITH PASSWORD 'password';
 
 user=# ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
