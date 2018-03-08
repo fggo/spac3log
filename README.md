@@ -99,13 +99,7 @@ else:
     }
 ```
 
-
-# Create the database
-```commandline
-python manage.py migrate
-```
-
-# before using python-decouple
+# alternative to python-decouple
 ```commandline
 gedit $VIRTUAL_ENV/bin/activate
 
@@ -129,3 +123,32 @@ SECRET_KEY = os.getenv('SECRET_KEY', default=None)
 heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
 ```
 
+
+# Create the database
+```commandline
+python manage.py migrate
+```
+
+# Viewing the project
+```commandline
+python manage.py runserver
+```
+
+# Starting an App
+```commandline
+python manage.py startapp user_app
+```
+
+# Defining models
+```python
+# models.py 
+from django.db import models
+
+# Create your models here.
+class Topic(models.Model):
+    text = models.CharField(max_length=200)
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.text
+```
