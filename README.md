@@ -169,3 +169,62 @@ class Topic(models.Model):
     def __str__(self):
         return self.text
 ```
+
+# Activating Models
+```python
+# settings.py
+INSTALLED_APPS = [
+    # --snip--
+    # My apps
+    'my_app_name',
+] 
+```
+
+modify the database so that it can store information related to the new model 'Topic'
+```commandline
+python manage.py makemigrations my_app_name
+python manage.py migrate
+```
+
+# Django Admin Site
+```commandline
+python manage.py createsuperuser
+    Username:
+    Email address:
+    Password:
+```
+
+# Registering model with admin site
+```python
+# admin.py
+from django.contrib import admin
+from my_app_name.models import Topic
+
+admin.site.register(Topic) 
+```
+
+# Django Shell
+```commandline
+python manage.py shell
+>>> from my_app_name.models import Topic
+>>> Topic.objects.all()
+>>> topics = Topic.objects.all()
+>>> for topic in topics:
+...     print(topic.id, topic)
+...
+
+>>> t = Topic.objects.get(id=1)
+>>> t.text
+>>> t.date_added
+```
+
+# Mapping a URL
+```python
+# /project_name/urls.py
+```
+
+```python
+# /project_name/app_name/urls.py
+```
+
+
