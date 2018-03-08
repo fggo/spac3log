@@ -129,6 +129,23 @@ heroku config:set SECRET_KEY='YOUR_SECRET_KEY_VALUE'
 python manage.py migrate
 ```
 
+# Trouble shooting in Creating postgresql database
+"INDENT AUTHENTIFICATION FAILED" [error](https://superuser.com/questions/179238/postgres-ident-authentication-failed)
+```commandline
+sudo -u postgres psql
+
+postgres=# show hba_file;
+    /path/to/pg_hba.conf
+postgres=# \q
+
+sudo vim /path/to/pg_hba.conf
+    local   all         all                               trust
+    host    all         all         127.0.0.1/32          trust
+    host    all         all         ::1/128               trust
+    host    all         all         0.0.0.0/0             md5
+```
+
+
 # Viewing the project
 ```commandline
 python manage.py runserver
