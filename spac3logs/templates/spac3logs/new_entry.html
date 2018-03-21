@@ -9,6 +9,8 @@
 {% endblock header %}
 
 {% block content %}
+  <p>Add a new entry:</p>
+
   <form class="form" action="{% url 'spac3logs:new_entry' topic.id %}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}

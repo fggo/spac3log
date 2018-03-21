@@ -1,22 +1,15 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
+
 
 app_name = 'spac3logs'
 
 urlpatterns = [
-    # Home page
-    url(r'^$', views.index, name='index'),
-    # topics
-    url(r'^topics/$', views.topics, name='topics'),
-    # topic
-    url(r'^topics/(?P<topic_id>\d+)/$', views.topic, name='topic'),
-    # new topic
-    url(r'^new_topic/$', views.new_topic, name='new_topic'),
-    # new entry
-    url(r'^new_entry/(?P<topic_id>\d+)/$', views.new_entry,
-        name='new_entry'),
-    # edit entry
-    url(r'^edit_entry/(?P<entry_id>\d+)/$', views.edit_entry,
-        name='edit_entry'),
+    path('', views.index, name='index'),
+    path('topics/$', views.topics, name='topics'),
+    path('topics/<int:topic_id>/', views.topic, name='topic'),
+    path('new_topic/', views.new_topic, name='new_topic'),
+    path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
+    path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
 ]

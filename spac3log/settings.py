@@ -1,6 +1,7 @@
 import os
 from decouple import Csv, config
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -14,20 +15,17 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Database
 cwd = os.getcwd()
-print("--- CWD ---\n", cwd, "\n---\n")
-
 if cwd == '/app' or cwd[:4] == '/tmp':
     # heroku
     import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL')
-        )
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
-    # honor the 'X-Forwarded-Proto' header for request.is_secure()
+
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    # static asset configuration
+    # Static asset configuration
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     STATIC_ROOT = 'staticfiles'
     STATICFILES_DIRS = (
