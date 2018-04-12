@@ -32,8 +32,15 @@ python_version = "3.6"
 
 # PostgreSQL local setup
 ```commandline
-sudo apt update
+# ubuntu
 sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
+
+# fedora
+sudo dnf install postgresql-server postgresql-contrib
+
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+
 sudo -u postgres psql
 psql
 
@@ -48,6 +55,7 @@ user=# ALTER ROLE myprojectuser SET timezone TO 'UTC';
 user=# GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
 user=# \q
 ```
+
 
 # Start django project
 ```commandline
